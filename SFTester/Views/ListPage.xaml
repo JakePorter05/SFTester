@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="SFTester.Views.ListPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:helper="clr-namespace:SFTester.Services"
+             xmlns:listView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:local="clr-namespace:SFTester.ViewModels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             BackgroundColor="WhiteSmoke"
+             Visual="Material"
+             mc:Ignorable="d">
+    <ContentPage.BindingContext>
+        <local:ListViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <DataTemplate x:Key="Radio">
+            <StackLayout Margin="10,0"
+                         BackgroundColor="{Binding ., Converter={StaticResource altRowColor}, ConverterParameter={x:Reference listView}}">
+                <StackLayout Orientation="Horizontal">
+                    <Label x:Name="inquiryBox"
+                           HorizontalOptions="Start"
+                           Text="{Binding Name}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+
+                    <listView:SfListView AutoFitMode="Height"
+                                         HeightRequest="50"
+                                         HorizontalOptions="FillAndExpand"
+                                         ItemsSource="{Binding Items}"
+                                         Orientation="Horizontal"
+                                         SelectedItem="{Binding Reply, Mode=TwoWay}"
+                                         SelectionBackgroundColor="Transparent"
+                                         SelectionMode="Single">
+                        <listView:SfListView.SelectedItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <border:SfBorder Margin="2"
+                                                     Padding="8,2"
+                                                     BackgroundColor="Green"
+                                                     CornerRadius="10">
+                                        <Label HorizontalOptions="FillAndExpand"
+                                               Text="{Binding .}"
+                                               TextColor="White"
+                                               VerticalTextAlignment="Center" />
+                                    </border:SfBorder>
+                                </ViewCell>
+                            </DataTemplate>
+                        </listView:SfListView.SelectedItemTemplate>
+                        <listView:SfListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <border:SfBorder Margin="2"
+                                                     Padding="8,2"
+                                                     BackgroundColor="Blue"
+                                                     CornerRadius="10">
+                                        <Label HorizontalOptions="FillAndExpand"
+                                               Text="{Binding .}"
+                                               TextColor="White"
+                                               VerticalTextAlignment="Center" />
+                                    </border:SfBorder>
+                                </ViewCell>
+                            </DataTemplate>
+                        </listView:SfListView.ItemTemplate>
+                    </listView:SfListView>
+                </StackLayout>
+            </StackLayout>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CheckBox">
+            <StackLayout Margin="10,0"
+                         BackgroundColor="{Binding ., Converter={StaticResource altRowColor}, ConverterParameter={x:Reference listView}}">
+                <StackLayout Orientation="Horizontal">
+                    <Label x:Name="inquiryBox"
+                           HorizontalOptions="Start"
+                           Text="{Binding Name}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <listView:SfListView AutoFitMode="Height"
+                                         HeightRequest="50"
+                                         HorizontalOptions="FillAndExpand"
+                                         ItemsSource="{Binding Items}"
+                                         Loaded="SfListView_Loaded"
+                                         Orientation="Horizontal"
+                                         SelectionBackgroundColor="Transparent"
+                                         SelectionChanged="SfListView_SelectionChanged"
+                                         SelectionMode="Multiple">
+                        <listView:SfListView.SelectedItemTemplate>
+                            <DataTemplate>
+                                <border:SfBorder Margin="2"
+                                                 Padding="8,2"
+                                                 BackgroundColor="Green"
+                                                 CornerRadius="10">
+                                    <Label HorizontalOptions="FillAndExpand"
+                                           Text="{Binding .}"
+                                           TextColor="White"
+                                           VerticalTextAlignment="Center" />
+                                </border:SfBorder>
+                            </DataTemplate>
+                        </listView:SfListView.SelectedItemTemplate>
+                        <listView:SfListView.ItemTemplate>
+                            <DataTemplate>
+                                <border:SfBorder Margin="2"
+                                                 Padding="8,2"
+                                                 BackgroundColor="Blue"
+                                                 CornerRadius="10">
+                                    <Label HorizontalOptions="FillAndExpand"
+                                           Text="{Binding .}"
+                                           TextColor="White"
+                                           VerticalTextAlignment="Center" />
+                                </border:SfBorder>
+                            </DataTemplate>
+                        </listView:SfListView.ItemTemplate>
+                    </listView:SfListView>
+                </StackLayout>
+            </StackLayout>
+        </DataTemplate>
+        <helper:AltRowColorConverter x:Key="altRowColor" />
+        <helper:CSVToHyperLinkTextSpan x:Key="cvsConvert" />
+        <helper:TemplateSelector x:Key="TemplateSelector"
+                                 CheckBox="{StaticResource CheckBox}"
+                                 Radio="{StaticResource Radio}" />
+    </ContentPage.Resources>
+
+    <StackLayout>
+        <Label Margin="10"
+               FontSize="14"
+               FormattedText="{Binding Navbar, Converter={StaticResource cvsConvert}, ConverterParameter=4}"
+               HorizontalOptions="FillAndExpand" />
+        <listView:SfListView x:Name="listView"
+                             AutoFitMode="DynamicHeight"
+                             HorizontalOptions="FillAndExpand"
+                             ItemTemplate="{StaticResource TemplateSelector}"
+                             ItemsSource="{Binding Items}"
+                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                             SelectionBackgroundColor="WhiteSmoke"
+                             SelectionMode="Single"
+                             VerticalOptions="FillAndExpand" />
+        <listView:SfListView AutoFitMode="Height"
+                             ColumnSpacing="2"
+                             HeightRequest="50"
+                             ItemsSource="{Binding Pages}"
+                             Orientation="Horizontal"
+                             SelectedItem="{Binding SelectedPage}"
+                             VerticalOptions="End">
+            <listView:SfListView.SelectedItemTemplate>
+                <DataTemplate>
+                    <border:SfBorder Margin="4"
+                                     Padding="4"
+                                     BackgroundColor="Purple"
+                                     CornerRadius="10">
+                        <Label Text="{Binding .}"
+                               TextColor="White"
+                               VerticalTextAlignment="Center" />
+                    </border:SfBorder>
+                </DataTemplate>
+            </listView:SfListView.SelectedItemTemplate>
+            <listView:SfListView.ItemTemplate>
+                <DataTemplate>
+                    <border:SfBorder Margin="4"
+                                     Padding="4"
+                                     BackgroundColor="Blue"
+                                     CornerRadius="10">
+                        <Label Text="{Binding .}"
+                               TextColor="White"
+                               VerticalTextAlignment="Center" />
+                    </border:SfBorder>
+                </DataTemplate>
+            </listView:SfListView.ItemTemplate>
+        </listView:SfListView>
+    </StackLayout>
+</ContentPage>
