@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="98c15cb4-43e1-4640-b395-bdd202d282d3"
-    Publisher="CN=864f517d-57f0-4f7b-b9a4-75a5cb6d9bc8"
+    Name="SFTesting"
+    Publisher="CN=jakep"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="ec0cc741-fd3e-485c-81be-68815c480690" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>SFTester.UWP</DisplayName>
-    <PublisherDisplayName>864f517d-57f0-4f7b-b9a4-75a5cb6d9bc8</PublisherDisplayName>
+    <PublisherDisplayName>jakeporter</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
